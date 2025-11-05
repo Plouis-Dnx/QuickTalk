@@ -1,7 +1,7 @@
 import { Controller, Post } from '@nestjs/common';
 
-@Controller('users')
-export class UserController {
+@Controller('auth')
+export class AuthController {
   @Post('login')
   login(): string {
     return 'Authenticates a user and returns a token';
