@@ -1,14 +1,9 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Post } from '@nestjs/common';
 
-@Controller('users')
-export class UserController {
-  @Get()
-  getHello(): string {
-    return 'Hello Users!';
-  }
-
-  @Get('goodbye')
-  getGoodbye(): string {
-    return 'Goodbye Users!';
+@Controller('auth')
+export class AuthController {
+  @Post('register')
+  register(): string {
+    return 'Registers a new user and returns confirmation';
   }
 }
