@@ -1,14 +1,9 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Post } from '@nestjs/common';
 
-@Controller('users')
-export class UserController {
-  @Get()
-  getHello(): string {
-    return 'Hello Users!';
-  }
-
-  @Get('goodbye')
-  getGoodbye(): string {
-    return 'Goodbye Users!';
+@Controller('auth')
+export class AuthController {
+  @Post('refresh')
+  refresh(): string {
+    return 'Refreshes the access token using a valid refresh token';
   }
 }
