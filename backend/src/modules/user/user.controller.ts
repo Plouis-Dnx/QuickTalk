@@ -1,14 +1,9 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 
 @Controller('users')
 export class UserController {
-  @Get('hello')
-  getHello(): string {
-    return 'Hello Users!';
-  }
-
-  @Get('goodbye')
-  getGoodbye(): string {
-    return 'Goodbye Users!'
+  @Get(':id')
+  getUserById(@Param('id') id: string): string {
+    return `Return data for user with ID: ${id}`;
   }
 }
