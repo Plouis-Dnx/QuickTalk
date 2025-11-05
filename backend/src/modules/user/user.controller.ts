@@ -1,14 +1,9 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Delete, Param } from '@nestjs/common';
 
 @Controller('users')
 export class UserController {
-  @Get('hello')
-  getHello(): string {
-    return 'Hello Users!';
-  }
-
-  @Get('goodbye')
-  getGoodbye(): string {
-    return 'Goodbye Users!'
+  @Delete(':id')
+  deleteUserById(@Param('id') id: string): string {
+    return `Delete user with ID: ${id}`;
   }
 }
