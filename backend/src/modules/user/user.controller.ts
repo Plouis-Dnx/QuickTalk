@@ -1,14 +1,9 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Put, Param } from '@nestjs/common';
 
 @Controller('users')
 export class UserController {
-  @Get('hello')
-  getHello(): string {
-    return 'Hello Users!';
-  }
-
-  @Get('goodbye')
-  getGoodbye(): string {
-    return 'Goodbye Users!'
+  @Put(':id')
+  updateUserById(@Param('id') id: string): string {
+    return `Update user information for ID: ${id}`;
   }
 }
