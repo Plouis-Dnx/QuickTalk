@@ -1,2 +1,2 @@
 # QuickTalk
-Open-source instant messaging app built with Angular &amp; Fastify — part of my Bachelor's fullstack journey.
+QuickTalk is an open-source instant messaging application developed as part of my Bachelor's project. It combines a fast and reliable communication experience with a hands-on exploration of full-stack development. Built with Angular (front-end) and Fastify (back-end), QuickTalk reflects my commitment to learning modern technologies, applying Agile methodologies, and writing maintainable code that follows SOLID principles. This project is not just about building an app—it's about mastering the development lifecycle from planning to deployment.
