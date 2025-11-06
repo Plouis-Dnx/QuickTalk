@@ -1,9 +1,13 @@
 import { Controller, Get, Param } from '@nestjs/common';
+import { UserService } from './user.service';
+import { User } from './user.schema';
 
 @Controller('users')
-export class UserController {
+export class UsersController {
+  constructor(private readonly usersService: UserService) {}
+
   @Get(':id')
-  getUserById(@Param('id') id: string): string {
-    return `Return data for user with ID: ${id}`;
+  async getUserById(@Param('id') id: string): Promise<User> {
+    return this.usersService.getUserById(id);
   }
 }
