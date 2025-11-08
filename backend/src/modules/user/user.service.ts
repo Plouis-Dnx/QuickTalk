@@ -28,4 +28,10 @@ export class UserService {
 
     return updatedUser;
   }
+
+    async deleteUserById(id: string): Promise<User> {
+        const deletedUser = await this.userModel.findByIdAndDelete(id).exec();
+        if (!deletedUser) throw new NotFoundException(`user not found`);
+        return deletedUser;
+    }
 }
