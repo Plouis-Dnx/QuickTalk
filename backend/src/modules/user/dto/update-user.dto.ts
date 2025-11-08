@@ -1,11 +1,17 @@
 import { IsOptional, IsString, IsBoolean, IsEmail } from 'class-validator';
 
 export class UpdateUserDto {
-    @IsString() googleId: string;
+    @IsOptional()
+    @IsString() 
+    googleId: string;
 
-    @IsString() username: string;
+    @IsOptional()
+    @IsString() 
+    username: string;
 
-    @IsEmail() email: string;
+    @IsOptional()
+    @IsEmail() 
+    email: string;
 
     @IsOptional()
     @IsString() 
@@ -15,6 +21,7 @@ export class UpdateUserDto {
     @IsString() 
     biography: string;
 
+    @IsOptional()
     @IsBoolean()
     visibility: boolean;
 }
