@@ -1,4 +1,4 @@
-// src/auth/dto/login-response.dto.ts
+// Used in AuthService
 import { User } from '../../user/user.schema'
 
 export interface LoginResponse {

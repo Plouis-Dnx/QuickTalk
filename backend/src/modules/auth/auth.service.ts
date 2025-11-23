@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
+import { LoginResponse } from './dto/login-response.dto';
 
 @Injectable()
 export class AuthService {
@@ -19,9 +20,9 @@ export class AuthService {
         return userData;
     }
 
-    async login(idToken: string) {
+    async login(idToken: string): Promise<LoginResponse> {
         const userData = await this.verifyGoogleToken(idToken);
-        const user = await this.userService.findByEmail(userData.email);
+        const user = await this.userService.getUserByEmail(userData.email);
 
         if (!user) throw new UnauthorizedException('Utilisateur non inscrit');
 
