@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginResponse } from './dto/login-response.dto';
@@ -28,5 +28,24 @@ export class AuthService {
 
         const jwt = this.jwtService.sign({ sub: user._id, email: user.email });
         return { access_token: jwt, user };
+    }
+    
+    async register(idToken: string): Promise<LoginResponse> {
+        const userData = await this.verifyGoogleToken(idToken);
+        const existingUser = await this.userService.getUserByEmail(userData.email);
+
+        if (existingUser) throw new ConflictException('User already exists');
+
+        const newUser = await this.userService.createUser({
+            googleId: userData.sub,             // Google user ID
+            username: userData.name,         
+            email: userData.email,           
+            profile_picture: userData.picture, 
+            biography: '',                  
+            visibility: true,                   // Public by default
+        });
+
+        const jwt = this.jwtService.sign({ sub: newUser._id, email: newUser.email });
+        return { access_token: jwt, user: newUser };
     }
 }
