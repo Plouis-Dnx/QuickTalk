@@ -63,7 +63,7 @@ export class AuthService {
 
         return { access_token: newAccessToken };
     }
-    
+
     async getMe(email: string): Promise<User> {
         const user = await this.userService.getUserByEmail(email);
         if (!user) throw new UnauthorizedException('Utilisateur non trouvé');
