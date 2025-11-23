@@ -48,4 +48,18 @@ export class AuthService {
         const jwt = this.jwtService.sign({ sub: newUser._id, email: newUser.email });
         return { access_token: jwt, user: newUser };
     }
+    
+    async refresh(refreshToken: string): Promise<{ access_token: string }> {
+        const payload = await this.jwtService.verifyAsync<{ sub: string; email: string }>(refreshToken);
+
+        const user = await this.userService.getUserByEmail(payload.email);
+        if (!user) throw new UnauthorizedException('Utilisateur non trouvé');
+
+        const newAccessToken = this.jwtService.sign(
+            { sub: user._id, email: user.email },
+            { expiresIn: '15m' }
+        );
+
+        return { access_token: newAccessToken };
+    }
 }
