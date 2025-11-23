@@ -2,6 +2,7 @@ import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/co
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginResponse } from './dto/login-response.dto';
+import { User } from '../user/user.schema';
 
 @Injectable()
 export class AuthService {
@@ -61,5 +62,11 @@ export class AuthService {
         );
 
         return { access_token: newAccessToken };
+    }
+    
+    async getMe(email: string): Promise<User> {
+        const user = await this.userService.getUserByEmail(email);
+        if (!user) throw new UnauthorizedException('Utilisateur non trouvé');
+        return user;
     }
 }

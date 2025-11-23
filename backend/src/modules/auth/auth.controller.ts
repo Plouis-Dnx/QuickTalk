@@ -1,6 +1,7 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Get, UseGuards, Req } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { LoginResponse } from './dto/login-response.dto';
+import { JwtAuthGuard } from './security/jwt.guard';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
@@ -20,5 +21,13 @@ export class AuthController {
   @Post('refresh')
   async refresh(@Body('refreshToken') refreshToken: string) {
     return this.authService.refresh(refreshToken);
+  }
+  
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  async getMe(@Req() req) {
+    // req.user is injected by JwtStrategy after token validation
+    const user = await this.authService.getMe(req.user.email);
+    return user;
   }
 }
