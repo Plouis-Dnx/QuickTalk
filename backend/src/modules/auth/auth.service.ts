@@ -25,7 +25,7 @@ export class AuthService {
         const userData = await this.verifyGoogleToken(idToken);
         const user = await this.userService.getUserByEmail(userData.email);
 
-        if (!user) throw new UnauthorizedException('Utilisateur non inscrit');
+        if (!user) throw new UnauthorizedException('User not registered');
 
         const jwt = this.jwtService.sign({ sub: user._id, email: user.email });
         return { access_token: jwt, user };
@@ -54,7 +54,7 @@ export class AuthService {
         const payload = await this.jwtService.verifyAsync<{ sub: string; email: string }>(refreshToken);
 
         const user = await this.userService.getUserByEmail(payload.email);
-        if (!user) throw new UnauthorizedException('Utilisateur non trouvé');
+        if (!user) throw new UnauthorizedException('User not found');
 
         const newAccessToken = this.jwtService.sign(
             { sub: user._id, email: user.email },
