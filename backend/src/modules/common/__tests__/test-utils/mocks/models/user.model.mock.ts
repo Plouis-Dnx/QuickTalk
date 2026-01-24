@@ -1,3 +1,4 @@
+// Here, we define DEFAULTS values
 export const createMockUserModel = () => {
     // Create a complete mock
     const mockModel: any = jest.fn(); // for "new userModel"
