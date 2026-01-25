@@ -1,5 +1,5 @@
 export const usersFixture = {
-  // ==================== Utilisateurs valides ====================
+  // ==================== Valid Users ====================
   validUsers: [
     {
       _id: '507f1f77bcf86cd799439011',
@@ -40,8 +40,8 @@ export const usersFixture = {
       username: 'alice_wonder',
       email: 'alice.wonder@example.com',
       profile_picture: 'https://lh3.googleusercontent.com/a/default-user-4',
-      // Pas de biography (optionnel)
-      visibility: false, // Profil privé
+      // No biography (optional)
+      visibility: false, // Private profile
       createdAt: new Date('2024-01-18T11:45:00.000Z'),
       updatedAt: new Date('2024-01-18T11:45:00.000Z'),
     },
@@ -50,7 +50,7 @@ export const usersFixture = {
       googleId: 'google-999888777',
       username: 'charlie_brown',
       email: 'charlie.brown@example.com',
-      // Pas de profile_picture (optionnel)
+      // No profile_picture (optional)
       biography: 'Just getting started with coding!',
       visibility: true,
       createdAt: new Date('2024-01-19T16:00:00.000Z'),
@@ -58,7 +58,7 @@ export const usersFixture = {
     },
   ],
 
-  // ==================== Un seul utilisateur valide ====================
+  // ==================== Single Valid User ====================
   singleValidUser: {
     _id: '507f1f77bcf86cd799439011',
     googleId: 'google-123456789',
@@ -71,20 +71,20 @@ export const usersFixture = {
     updatedAt: new Date('2024-01-15T10:30:00.000Z'),
   },
 
-  // ==================== Utilisateur avec profil minimal ====================
+  // ==================== User with a minmal profile ====================
   minimalUser: {
     _id: '507f1f77bcf86cd799439020',
     googleId: 'google-minimal-001',
     username: 'minimal_user',
     email: 'minimal@example.com',
-    // Pas de profile_picture
-    // Pas de biography
-    visibility: true, // Valeur par défaut
+    // No profile_picture
+    // No biography
+    visibility: true, // Default value
     createdAt: new Date('2024-01-20T08:00:00.000Z'),
     updatedAt: new Date('2024-01-20T08:00:00.000Z'),
   },
 
-  // ==================== Utilisateur avec profil privé ====================
+  // ==================== User with a private profile ====================
   privateUser: {
     _id: '507f1f77bcf86cd799439021',
     googleId: 'google-private-001',
@@ -92,52 +92,52 @@ export const usersFixture = {
     email: 'private@example.com',
     profile_picture: 'https://lh3.googleusercontent.com/a/private-user',
     biography: 'I prefer to keep my profile private',
-    visibility: false, // Profil privé
+    visibility: false, // Private profile
     createdAt: new Date('2024-01-21T12:30:00.000Z'),
     updatedAt: new Date('2024-01-21T12:30:00.000Z'),
   },
 
-  // ==================== Utilisateurs INVALIDES (pour tester la validation) ====================
+  // ==================== Invalid Users (to test validation) ====================
   invalidUsers: [
     {
-      // Manque googleId (required)
+      // Missing googleId (required)
       username: 'invalid_user_1',
       email: 'invalid1@example.com',
       visibility: true,
     },
     {
       googleId: 'google-invalid-002',
-      // Manque username (required)
+      // Missing username (required)
       email: 'invalid2@example.com',
       visibility: true,
     },
     {
       googleId: 'google-invalid-003',
       username: 'invalid_user_3',
-      // Manque email (required)
+      // Missing email (required)
       visibility: true,
     },
     {
       googleId: 'google-invalid-004',
       username: 'invalid_user_4',
-      email: 'not-an-email', // Email invalide (pas de @)
+      email: 'not-an-email', // Invalid email (no @)
       visibility: true,
     },
     {
       googleId: 'google-invalid-005',
-      username: '', // Username vide
+      username: '', // Empty username
       email: 'invalid5@example.com',
       visibility: true,
     },
     {
-      googleId: '', // GoogleId vide
+      googleId: '', // Empty GoogleID
       username: 'invalid_user_6',
       email: 'invalid6@example.com',
       visibility: true,
     },
   ],
 
-  // ==================== Données pour créer un nouvel utilisateur ====================
+  // ==================== Data to create a new user ====================
   newUserData: {
     googleId: 'google-new-user-001',
     username: 'new_user',
@@ -147,7 +147,7 @@ export const usersFixture = {
     visibility: true,
   },
 
-  // ==================== Données pour mettre à jour un utilisateur ====================
+  // ==================== Data to update a user ====================
   updateUserData: {
     username: 'updated_username',
     biography: 'Updated biography text',
