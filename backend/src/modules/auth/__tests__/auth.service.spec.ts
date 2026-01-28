@@ -8,12 +8,12 @@ import { AuthService } from '../auth.service'
 import { UserService } from '../../user/user.service'
 
 // Mocks
-import { createMockJwtService } from '../../../modules/common/__tests__/test-utils/mocks/services/jwt.service.mock'
-import { createMockUserService } from '../../../modules/common/__tests__/test-utils/mocks/services/user.service.mock'
+import { createMockJwtService } from '../../common/__tests__/test-utils/mocks/services/jwt.service.mock'
+import { createMockUserService } from '../../common/__tests__/test-utils/mocks/services/user.service.mock'
 
 // Fixtures
-import { googleAuthFixture } from '../../../modules/common/__tests__/test-utils/fixtures/google-auth.fixture'
-import { usersFixture } from '../../../modules/common/__tests__/test-utils/fixtures/users.fixture'
+import { googleAuthFixture } from '../../common/__tests__/test-utils/fixtures/google-auth.fixture'
+import { usersFixture } from '../../common/__tests__/test-utils/fixtures/users.fixture'
 
 describe('AuthService', () => {
     // Services
@@ -38,11 +38,11 @@ describe('AuthService', () => {
             providers: [ 
                 AuthService, // We want to test AuthService
                 {
-                    provide: UserService,
-                    useValue: mockUserService
+                    provide: UserService, // Replace UserService 
+                    useValue: mockUserService // by his mock
                 },
                 {
-                    provide: JwtService,
+                    provide: JwtService, // Same here... 
                     useValue: mockJwtService
                 }
             ] 
