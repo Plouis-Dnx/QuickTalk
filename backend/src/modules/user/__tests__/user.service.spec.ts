@@ -16,10 +16,10 @@ describe('UserService', () => {
         // Create test module
         const module: TestingModule = await Test.createTestingModule({
             providers: [
-                UserService,
-                {
-                    provide: getModelToken(User.name),
-                    useValue: mockUserModel
+                UserService, // We want to test UserService
+                { // Fake Database
+                    provide: getModelToken(User.name), // When the User Model from Mongoose is called
+                    useValue: mockUserModel // The program uses the mocked UserModel
                 }
             ]
         }).compile();
