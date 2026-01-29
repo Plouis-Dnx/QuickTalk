@@ -63,7 +63,7 @@ export const usersFixture = {
     _id: '507f1f77bcf86cd799439011',
     googleId: 'google-123456789',
     username: 'john_doe',
-    email: 'john.doe@example.com',
+    email: 'john.doe@gmail.com',
     profile_picture: 'https://lh3.googleusercontent.com/a/default-user-1',
     biography: 'Software developer passionate about NestJS and testing',
     visibility: true,
@@ -139,6 +139,7 @@ export const usersFixture = {
 
   // ==================== Data to create a new user ====================
   newUserData: {
+    _id: '507f1f77bcf86cd799439030',
     googleId: 'google-new-user-001',
     username: 'new_user',
     email: 'newuser@example.com',

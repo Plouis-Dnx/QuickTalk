@@ -109,7 +109,7 @@ describe('UserService', () => {
     describe('createUser', () => {
         it('should create and save a new user', async () => {
             const newUser = usersFixture.newUserData;
-            const savedUser = {_id: '507f1f77bcf86cd799439099', ...newUser};
+            const savedUser = {...newUser};
 
             mockUserModel.mockImplementation(() => ({
                 save: jest.fn().mockResolvedValue(savedUser)

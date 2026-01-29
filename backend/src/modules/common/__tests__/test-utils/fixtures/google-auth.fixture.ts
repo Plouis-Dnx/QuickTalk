@@ -44,9 +44,9 @@ export const googleAuthFixture = {
   // ==================== Nouvel utilisateur (pas encore enregistré) ====================
   newUserTokenInfo: {
     sub: 'google-new-user-001',
-    email: 'newuser@gmail.com', // ← N'existe pas dans usersFixture
+    email: 'newuser@example.com', 
     email_verified: true,
-    name: 'New User',
+    name: 'new_user',
     given_name: 'New',
     family_name: 'User',
     picture: 'https://lh3.googleusercontent.com/a/new-user',
