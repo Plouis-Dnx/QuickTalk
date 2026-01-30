@@ -1,8 +1,14 @@
-import { Test, TestingModule } from '@nestjs/testing'
-import { UserService } from '../user.service'
-import { getModelToken } from '@nestjs/mongoose'
-import { User } from '../user.schema'
+import { Test, TestingModule } from '@nestjs/testing';
+import { NotFoundException } from '@nestjs/common';
+import { getModelToken } from '@nestjs/mongoose';
+
+import { UserService } from '../user.service';
+import { User } from '../user.schema';
+
+// User Model Mock
 import { createMockUserModel } from '../../common/__tests__/test-utils/mocks/models/user.model.mock';
+
+// User Fixtures
 import { usersFixture } from '../../common/__tests__/test-utils/fixtures/users.fixture';
 
 describe('UserService', () => {
@@ -10,16 +16,14 @@ describe('UserService', () => {
     let mockUserModel: any;
 
     beforeEach(async () => {
-        // Create mock
         mockUserModel = createMockUserModel();
 
-        // Create test module
         const module: TestingModule = await Test.createTestingModule({
             providers: [
-                UserService, // We want to test UserService
-                { // Fake Database
-                    provide: getModelToken(User.name), // When the User Model from Mongoose is called
-                    useValue: mockUserModel // The program uses the mocked UserModel
+                UserService,
+                {
+                    provide: getModelToken(User.name),
+                    useValue: mockUserModel
                 }
             ]
         }).compile();
@@ -28,7 +32,7 @@ describe('UserService', () => {
     });
 
     afterEach(() => {
-        jest.clearAllMocks(); // Clears mocks after each test
+        jest.clearAllMocks();
     });
 
     it('should be defined', () => {
@@ -46,12 +50,15 @@ describe('UserService', () => {
             const result = await service.getAllUsers();
 
             expect(result).toEqual(usersFixture.validUsers);
-            expect(result).toHaveLength(5);
+            expect(result).toHaveLength(usersFixture.validUsers.length);
             expect(mockUserModel.find).toHaveBeenCalled();
         });
 
         it('should return an empty array when no users', async () => {
-            mockUserModel.find;
+            mockUserModel.find.mockReturnValue({
+                exec: jest.fn().mockResolvedValue([])
+            });
+
             const result = await service.getAllUsers();
 
             expect(result).toEqual([]);
@@ -66,19 +73,20 @@ describe('UserService', () => {
                 exec: jest.fn().mockResolvedValue(usersFixture.singleValidUser)
             });
 
-            const result = await service.getUserById('507f1f77bcf86cd799439011');
+            const result = await service.getUserById(usersFixture.singleValidUser._id);
 
-            expect(mockUserModel.findById).toHaveBeenCalledWith('507f1f77bcf86cd799439011');
+            expect(mockUserModel.findById).toHaveBeenCalledWith(usersFixture.singleValidUser._id);
             expect(result).toEqual(usersFixture.singleValidUser);
-            expect(result.email).toBe('john.doe@example.com');
-            expect(result.username).toBe('john_doe');
         });
 
         it('should throw NotFoundException when user not found', async () => {
-            mockUserModel.findById;
-            await expect(service.getUserById('nonexistant-id'))
+            mockUserModel.findById.mockReturnValue({
+                exec: jest.fn().mockResolvedValue(null)
+            });
+
+            await expect(service.getUserById('nonexistent-id'))
                 .rejects
-                .toThrow('user not found');
+                .toThrow(NotFoundException);
         });
     });
 
@@ -89,39 +97,41 @@ describe('UserService', () => {
                 exec: jest.fn().mockResolvedValue(usersFixture.singleValidUser)
             });
 
-            const result = await service.getUserByEmail('john.doe@example.com');
+            const result = await service.getUserByEmail(usersFixture.singleValidUser.email);
 
             expect(result).toEqual(usersFixture.singleValidUser);
             expect(mockUserModel.findOne).toHaveBeenCalledWith({ 
-                email: 'john.doe@example.com' 
+                email: usersFixture.singleValidUser.email 
             });
         });
 
         it('should throw NotFoundException when email not found', async () => {
-            mockUserModel.findOne;
-            await expect(service.getUserById('notfound@email.com'))
+            mockUserModel.findOne.mockReturnValue({
+                exec: jest.fn().mockResolvedValue(null)
+            });
+
+            await expect(service.getUserByEmail('notfound@email.com'))
                 .rejects
-                .toThrow('user not found');
+                .toThrow(NotFoundException);
         });
     });
 
     // =============================== createUser ===============================
     describe('createUser', () => {
         it('should create and save a new user', async () => {
-            const newUser = usersFixture.newUserData;
-            const savedUser = {...newUser};
-
-            mockUserModel.mockImplementation(() => ({
-                save: jest.fn().mockResolvedValue(savedUser)
+            const userData = { ...usersFixture.newUserData };
+            
+            mockUserModel.mockImplementation((dto) => ({
+                ...dto,
+                save: jest.fn().mockResolvedValue({ ...dto, _id: 'mocked-id' })
             }));
 
-            const result = await service.createUser(newUser);
+            const result = await service.createUser(userData);
 
-            expect(result).toEqual(savedUser);
-            expect(result._id).toBeDefined();
+            expect(mockUserModel).toHaveBeenCalledWith(userData);
+            expect(result).toMatchObject(userData);
+            expect(result).toHaveProperty('_id');
         });
-
-        // Case where creation did not work ??
     });
 
     // =============================== updateUserById ===============================
@@ -141,21 +151,22 @@ describe('UserService', () => {
                 usersFixture.updateUserData
             );
 
-            expect(result.username).toBe('updated_username');
-            expect(result.visibility).toBe(false);
-            expect(result.email).toBe('john.doe@example.com');
+            expect(result.username).toBe(usersFixture.updateUserData.username);
             expect(mockUserModel.findByIdAndUpdate).toHaveBeenCalledWith(
-                '507f1f77bcf86cd799439011',
+                usersFixture.singleValidUser._id,
                 usersFixture.updateUserData,
                 { new: true, runValidators: true }
             );
         });
 
-        it('should return NotFoundException when user to update not found', async () => {
-            mockUserModel.findByIdAndUpdate;
+        it('should throw NotFoundException when user to update not found', async () => {
+            mockUserModel.findByIdAndUpdate.mockReturnValue({
+                exec: jest.fn().mockResolvedValue(null)
+            });
+
             await expect(
-                service.updateUserById('nonexistant-id', usersFixture.updateUserData)
-            ).rejects.toThrow('user not found');
+                service.updateUserById('nonexistent-id', usersFixture.updateUserData)
+            ).rejects.toThrow(NotFoundException);
         });
     });
 
@@ -166,17 +177,20 @@ describe('UserService', () => {
                 exec: jest.fn().mockResolvedValue(usersFixture.singleValidUser)
             });
 
-            const result = await service.deleteUserById('507f1f77bcf86cd799439011');
+            const result = await service.deleteUserById(usersFixture.singleValidUser._id);
 
             expect(result).toEqual(usersFixture.singleValidUser);
-            expect(mockUserModel.findByIdAndDelete).toHaveBeenCalledWith('507f1f77bcf86cd799439011');
+            expect(mockUserModel.findByIdAndDelete).toHaveBeenCalledWith(usersFixture.singleValidUser._id);
         });
 
         it('should throw NotFoundException when user to delete not found', async () => {
-            mockUserModel.findByIdAndDelete;
+            mockUserModel.findByIdAndDelete.mockReturnValue({
+                exec: jest.fn().mockResolvedValue(null)
+            });
+
             await expect(service.deleteUserById('nonexistent-id'))
                 .rejects
-                .toThrow('user not found');
+                .toThrow(NotFoundException);
         });
     });
 });

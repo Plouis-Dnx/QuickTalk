@@ -5,7 +5,7 @@ export const usersFixture = {
       _id: '507f1f77bcf86cd799439011',
       googleId: 'google-123456789',
       username: 'john_doe',
-      email: 'john.doe@example.com',
+      email: 'john.doe@gmail.com',
       profile_picture: 'https://lh3.googleusercontent.com/a/default-user-1',
       biography: 'Software developer passionate about NestJS and testing',
       visibility: true,
@@ -16,7 +16,7 @@ export const usersFixture = {
       _id: '507f1f77bcf86cd799439012',
       googleId: 'google-987654321',
       username: 'jane_smith',
-      email: 'jane.smith@example.com',
+      email: 'jane.smith@gmail.com',
       profile_picture: 'https://lh3.googleusercontent.com/a/default-user-2',
       biography: 'Tech enthusiast | Coffee lover ☕',
       visibility: true,
@@ -27,7 +27,7 @@ export const usersFixture = {
       _id: '507f1f77bcf86cd799439013',
       googleId: 'google-555444333',
       username: 'bob_wilson',
-      email: 'bob.wilson@example.com',
+      email: 'bob.wilson@gmail.com',
       profile_picture: 'https://lh3.googleusercontent.com/a/default-user-3',
       biography: 'Full-stack developer exploring MongoDB',
       visibility: true,
@@ -38,7 +38,7 @@ export const usersFixture = {
       _id: '507f1f77bcf86cd799439014',
       googleId: 'google-111222333',
       username: 'alice_wonder',
-      email: 'alice.wonder@example.com',
+      email: 'alice.wonder@gmail.com',
       profile_picture: 'https://lh3.googleusercontent.com/a/default-user-4',
       // No biography (optional)
       visibility: false, // Private profile
@@ -49,7 +49,7 @@ export const usersFixture = {
       _id: '507f1f77bcf86cd799439015',
       googleId: 'google-999888777',
       username: 'charlie_brown',
-      email: 'charlie.brown@example.com',
+      email: 'charlie.brown@gmail.com',
       // No profile_picture (optional)
       biography: 'Just getting started with coding!',
       visibility: true,
@@ -76,7 +76,7 @@ export const usersFixture = {
     _id: '507f1f77bcf86cd799439020',
     googleId: 'google-minimal-001',
     username: 'minimal_user',
-    email: 'minimal@example.com',
+    email: 'minimal@gmail.com',
     // No profile_picture
     // No biography
     visibility: true, // Default value
@@ -89,7 +89,7 @@ export const usersFixture = {
     _id: '507f1f77bcf86cd799439021',
     googleId: 'google-private-001',
     username: 'private_user',
-    email: 'private@example.com',
+    email: 'private@gmail.com',
     profile_picture: 'https://lh3.googleusercontent.com/a/private-user',
     biography: 'I prefer to keep my profile private',
     visibility: false, // Private profile
@@ -102,13 +102,13 @@ export const usersFixture = {
     {
       // Missing googleId (required)
       username: 'invalid_user_1',
-      email: 'invalid1@example.com',
+      email: 'invalid1@gmail.com',
       visibility: true,
     },
     {
       googleId: 'google-invalid-002',
       // Missing username (required)
-      email: 'invalid2@example.com',
+      email: 'invalid2@gmail.com',
       visibility: true,
     },
     {
@@ -126,23 +126,22 @@ export const usersFixture = {
     {
       googleId: 'google-invalid-005',
       username: '', // Empty username
-      email: 'invalid5@example.com',
+      email: 'invalid5@gmail.com',
       visibility: true,
     },
     {
       googleId: '', // Empty GoogleID
       username: 'invalid_user_6',
-      email: 'invalid6@example.com',
+      email: 'invalid6@gmail.com',
       visibility: true,
     },
   ],
 
   // ==================== Data to create a new user ====================
   newUserData: {
-    _id: '507f1f77bcf86cd799439030',
     googleId: 'google-new-user-001',
     username: 'new_user',
-    email: 'newuser@example.com',
+    email: 'newuser@gmail.com',
     profile_picture: 'https://lh3.googleusercontent.com/a/new-user',
     biography: 'Just joined the platform!',
     visibility: true,

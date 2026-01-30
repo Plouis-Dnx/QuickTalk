@@ -151,7 +151,8 @@ describe('AuthService', () => {
             mockUserService.getUserByEmail.mockResolvedValueOnce(null);
 
             // Mock UserService to create a new user
-            mockUserService.createUser.mockResolvedValueOnce(usersFixture.newUserData);
+            const newUser = { ...usersFixture.newUserData, _id: 'mock-new-user-id' };
+            mockUserService.createUser.mockResolvedValueOnce(newUser);
 
             // Mock JwtService to return a fake JWT
             mockJwtService.sign.mockReturnValueOnce('fake-jwt-token-for-new-user');
@@ -171,12 +172,12 @@ describe('AuthService', () => {
                 visibility: true,
             });
             expect(mockJwtService.sign).toHaveBeenCalledWith({ 
-                sub: usersFixture.newUserData._id,
+                sub: 'mock-new-user-id',
                 email: usersFixture.newUserData.email
             });
             expect(result).toEqual({
                 access_token: 'fake-jwt-token-for-new-user',
-                user: usersFixture.newUserData
+                user: { ...usersFixture.newUserData, _id: 'mock-new-user-id' }
             });
         });
 
