@@ -2,16 +2,15 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
-// Import de tes modules métier
-import { UserModule } from './domain/user/user.module';
-import { AuthModule } from './domain/auth/auth.module';
+import { WebsocketModule } from './websocket/websocket.module';
+import { DomainModule } from './domain/domain.module';
 
 @Module({
   imports: [
-    // Charge les variables d'environnement (.env)
+    // Global configuration module to load environment variables from .env file
     ConfigModule.forRoot({ isGlobal: true }),
 
-    // Connexion MongoDB avec ConfigService
+    // MongoDB connection using Mongoose, with async configuration to read from environment variables
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {
@@ -24,9 +23,9 @@ import { AuthModule } from './domain/auth/auth.module';
       inject: [ConfigService],
     }),
 
-    // Modules métier
-    UserModule,
-    AuthModule,
+    // Modules 
+    DomainModule,
+    WebsocketModule
   ],
 })
 export class AppModule {}

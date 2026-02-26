@@ -7,7 +7,7 @@ export type MessageDocument = Message & Document;
 
 @Schema({ timestamps: true })
 export class Message {
-    @Prop({ required: true, unique: true, type: Types.ObjectId, ref: Conversation.name }) 
+    @Prop({ required: true, unique: true, type: Types.ObjectId, ref: "Conversation" }) 
     _conversation: Types.ObjectId;
 
     @Prop({required: true, unique: true, type: Types.ObjectId, ref: User.name })

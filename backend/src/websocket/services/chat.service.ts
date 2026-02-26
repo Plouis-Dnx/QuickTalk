@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { Server, Socket } from "socket.io";
 import { ConversationService } from "../../domain/conversation/conversation.service";
 import { MessageService } from "../../domain/message/message.service";
+import { CreateMessageDto } from "../../domain/message/dto/create-message.dto";
 
 @Injectable()
 export class ChatService{
@@ -33,15 +34,18 @@ export class ChatService{
 
     try {
       // Save the message in database 
-      const message = await this.messageService.createMessage(userId, conversationId, content);
+      const newMessage = new CreateMessageDto();
+      newMessage.conversationId = conversationId;
+      newMessage.senderId = userId;
+      newMessage.content = content;
+
+      const message = await this.messageService.createMessage(newMessage);
     
       // Emit the message to all clients in the conversation room
       server.to(conversationId).emit('newMessage', {
-        messageId: message._id.toString(),
         conversationId: message._conversation.toString(),
         senderId: message.sender.toString(),
-        content: message.content,
-        createdAt: message.createdAt
+        content: message.content
       });
 
       console.log(`Message successfully sent to conversation ${conversationId} by user ${userId}`);

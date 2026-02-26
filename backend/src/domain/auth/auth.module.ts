@@ -8,14 +8,15 @@ import { JwtStrategy } from './jwt-security/jwt.strategy';
 
 @Module({
   imports: [
-    UserModule, // pour accéder aux utilisateurs
+    UserModule, // to access UserService for validating user credentials
     PassportModule,
     JwtModule.register({
       secret: process.env.SECRET_JWT,
-      signOptions: { expiresIn: '1h' }, // durée de validité du token
+      signOptions: { expiresIn: '1h' }, // token expires in 1 hour
     }),
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],
+  exports: [JwtModule] 
 })
 export class AuthModule {}

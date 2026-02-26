@@ -9,7 +9,7 @@ export type ConversationDocument = Conversation & Document;
 export class Conversation {
     @Prop({required: true}) name: string;
 
-    @Prop({type: Types.ObjectId, ref: Message.name})
+    @Prop({type: Types.ObjectId, ref: "Message" })
     last_message: Types.ObjectId;
 
     @Prop({required: true, type: [Types.ObjectId], ref: User.name}) 

@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body } from "@nestjs/common";
+import { Controller, Get, Param, Post, Body, Query } from "@nestjs/common";
 import { ConversationService } from "./conversation.service";
 import { CreateConversationDto } from "./dto/create-conversation.dto";
 
@@ -6,8 +6,8 @@ import { CreateConversationDto } from "./dto/create-conversation.dto";
 export class ConversationController {
     constructor(private readonly conversationService: ConversationService) {}
 
-    @Get(':userId')
-    getUserConversations(@Param('userId') userId: string) {
+    @Get()
+    getUserConversations(@Query('userId') userId: string) {
         return this.conversationService.getUserConversations(userId);
     }
 
