@@ -26,6 +26,7 @@ export class UserService {
 
   async createUser(data: Partial<User>): Promise<UserDocument> {
     const user = new this.userModel(data);
+    if(!user) throw new Error('Failed to create user in database');
     return user.save();
   }
 
