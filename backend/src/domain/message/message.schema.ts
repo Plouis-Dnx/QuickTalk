@@ -13,7 +13,8 @@ export class Message {
     @Prop({required: true, unique: true, type: Types.ObjectId, ref: User.name })
     sender: Types.ObjectId;
 
-    @Prop() content: string;
+    @Prop() 
+    content: string;
 
     // createdAt, updatedAt (created automatically with timestamps)
 }
