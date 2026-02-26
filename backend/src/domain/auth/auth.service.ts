@@ -3,6 +3,7 @@ import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginResponse } from './dto/login-response.dto';
 import { User } from '../user/user.schema';
+import { access } from 'fs';
 
 @Injectable()
 export class AuthService {
@@ -28,12 +29,25 @@ export class AuthService {
         if (!user) throw new UnauthorizedException('User not registered');
 
         const jwt = this.jwtService.sign({ sub: user._id, email: user.email });
-        return { access_token: jwt, user };
+        return {
+            message: 'User logged in successfully', 
+            user: {
+                username: user.username,
+                email: user.email
+            },
+            access_token: jwt
+        }
     }
     
     async register(idToken: string): Promise<LoginResponse> {
         const userData = await this.verifyGoogleToken(idToken);
-        const existingUser = await this.userService.getUserByEmail(userData.email);
+
+        //const existingUser = await this.userService.getUserByEmail(userData.email);
+        //if (existingUser) throw new ConflictException('User already exists');
+
+        let existingUser;
+        try { existingUser = await this.userService.getUserByEmail(userData.email); }
+        catch(error) { existingUser = null; }
 
         if (existingUser) throw new ConflictException('User already exists');
 
@@ -47,7 +61,13 @@ export class AuthService {
         });
 
         const jwt = this.jwtService.sign({ sub: newUser._id, email: newUser.email });
-        return { access_token: jwt, user: newUser };
+        return {
+            message: 'User registered successfully', 
+            user: {
+                username: newUser.username,
+                email: newUser.email
+            }
+        }
     }
     
     async refresh(refreshToken: string): Promise<{ access_token: string }> {

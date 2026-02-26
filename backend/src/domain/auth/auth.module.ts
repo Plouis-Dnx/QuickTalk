@@ -5,15 +5,22 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { UserModule } from '../user/user.module';
 import { JwtStrategy } from './jwt-security/jwt.strategy';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    UserModule, // to access UserService for validating user credentials
-    PassportModule,
-    JwtModule.register({
-      secret: process.env.SECRET_JWT,
-      signOptions: { expiresIn: '1h' }, // token expires in 1 hour
+    // JwtModule configuration with async factory to read secret from environment variables
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET'),
+        signOptions: { expiresIn: '1h' },
+      })
     }),
+
+    UserModule, // to access UserService for validating user credentials
+    PassportModule
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],

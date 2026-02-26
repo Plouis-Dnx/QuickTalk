@@ -14,6 +14,7 @@ import {
   WebSocketServer, 
   WsException
 } from '@nestjs/websockets';
+import { JwtService } from '@nestjs/jwt';
 
 @WebSocketGateway({cors: { origin: '*' }, namespace: 'chat', transports: ['websocket']})
 @UseGuards(WsJwtGuard) // Only authenticated users can access this gateway
@@ -23,13 +24,33 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server; // Socket.io server instance
 
-  constructor(private chatService: ChatService){}
+  constructor(
+    private readonly chatService: ChatService,
+    private readonly jwtService: JwtService
+  ){}
 
   async handleConnection(client: Socket) {
-    const user = client.data.user; // Retrieve the authenticated user from the socket's data (set by the WsJwtGuard)
-    console.log(`${user.email} connected to chat (socket: ${client.id})`);
-    
-    await this.chatService.handleConnection(client);
+    try {
+      // Extract token from handshake (either from auth or headers)
+      const token = client.handshake.auth?.token || client.handshake.headers?.authorization?.split(' ')[1];
+      if(!token) {
+        client.disconnect();
+        return;
+      }
+
+      // Validate token and extract user info
+      const payload = await this.jwtService.verifyAsync(token);
+      
+      // Store user info in socket data for later use
+      client.data.user = payload;
+      
+      console.log(`${payload.email} connected to chat (socket: ${client.id})`);
+      await this.chatService.handleConnection(client);
+    }
+    catch (error) {
+      console.error('Connection error:', error.message);
+      client.disconnect();
+    }
   }
 
   async handleDisconnect(client: Socket) {

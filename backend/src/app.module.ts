@@ -26,6 +26,6 @@ import { DomainModule } from './domain/domain.module';
     // Modules 
     DomainModule,
     WebsocketModule
-  ],
+  ]
 })
 export class AppModule {}
