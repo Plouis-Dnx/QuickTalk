@@ -1,98 +1,90 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Description 
+Backend was developed with in TypeScript with the framework NestJS used with Fastify for a better performance.  
+To manage instant messages, I used the websocket library Socket.IO. 
+MongoDB is used to save data.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+# Folder tree structure
+├── src
+│   ├── domain
+│   │   ├── auth
+│   │   │   ├── dto
+│   │   │   ├── jwt-security
+│   │   │   └── __tests__
+│   │   ├── common
+│   │   │   └── __tests__
+│   │   │       └── test-utils
+│   │   │           ├── fixtures
+│   │   │           └── mocks
+│   │   │               ├── models
+│   │   │               └── services
+│   │   ├── conversation
+│   │   │   └── dto
+│   │   ├── message
+│   │   │   ├── dto
+│   │   │   └── __tests__
+│   │   └── user
+│   │       ├── dto
+│   │       └── __tests__
+│   └── websocket
+│       ├── decorators
+│       ├── dto
+│       ├── gateways
+│       ├── guards
+│       ├── services
+│       └── __tests__
+└─          └── gateways
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+# Installation
+To proceed to a proper installation, make sure the following packages are installed on your system :  
+ - git
+ - npm
+ - podman
+ - podman-compose
+You can install it easily by using your default system package manager such as apt (Ubuntu) or dnf (Fedora)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
-
+1. Clone the project
+Open your terminal and run the following command :  
 ```bash
-$ npm install
+git clone https://github.com/Plouis-Dnx/QuickTalk.git
 ```
 
-## Compile and run the project
-
+2. Install dependencies
+Move into the folder QuickTalk that you've just cloned by using the ```cd``` command in your terminal. Continue with :  
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+cd backend
+npm install
 ```
 
-## Run tests
-
+3. Install the database
+Then, you will need to install the MongoDB database. You can do it by running the following command :  
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+podman-compose up -d
+```
+This will start MongoDB on the default port (mongodb://localhost:27017). You can stop it whenever you want by typing
+```bash
+podman-compose down
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
+Of course, you can check if it works corretly  by using this command
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+podman ps
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+After this, you can check the collected data by installing [the official MongoDB GUI : MongoDB Compass](https://mongodb.com/try/download/compass)
 
-## Resources
+4. Define environment variables
+In the *backend* folder, create a new file and name it **.env**.
+Copy/Paste this in it : 
+```bash
+MONGODB_URI=
+JWT_SECRET=
+GOOGLE_CLIENT_ID=957773514091-2ovknddlin6hcrvatmabqig6hq45qub0.apps.googleusercontent.com
+```
 
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+ - *MONGODB_URI*: the link to the database. By default, it is ```mongodb://localhost:27017``` but you can modify it as you wish.
+ - *JWT_SECRET*: In you terminal, type the command :
+```bash
+openssl rand -base64 32
+```
+ - *GOOGLE_CLIENT_ID*: a Google ID needed to give you the permission to have access to QuickTalk. What it really does is, when you will authenticate to the app with Google, it will either automatically create a new id for you (if you register) or check if your existant ID is the same in QuickTalk. It is essential if we don't want people that are not registered to access to the app, which would be a security breach.
