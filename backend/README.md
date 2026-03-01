@@ -1,9 +1,12 @@
-# Description 
+# QuickTalk - Back-End
+
+## Description 
 Backend was developed with in TypeScript with the framework NestJS used with Fastify for a better performance.  
 To manage instant messages, I used the websocket library Socket.IO. 
 MongoDB is used to save data.
 
-# Folder tree structure
+## Folder tree structure
+```
 ├── src
 │   ├── domain
 │   │   ├── auth
@@ -33,30 +36,31 @@ MongoDB is used to save data.
 │       ├── services
 │       └── __tests__
 └─          └── gateways
+```
 
 
-# Installation
+## Installation
 To proceed to a proper installation, make sure the following packages are installed on your system :  
- - git
- - npm
- - podman
- - podman-compose
+ - **git**
+ - **npm**
+ - **podman**
+ - **podman-compose**  
 You can install it easily by using your default system package manager such as apt (Ubuntu) or dnf (Fedora)
 
-1. Clone the project
+### 1. Clone the project
 Open your terminal and run the following command :  
 ```bash
 git clone https://github.com/Plouis-Dnx/QuickTalk.git
 ```
 
-2. Install dependencies
+### 2. Install dependencies
 Move into the folder QuickTalk that you've just cloned by using the ```cd``` command in your terminal. Continue with :  
 ```bash
 cd backend
 npm install
 ```
 
-3. Install the database
+### 3. Install the database
 Then, you will need to install the MongoDB database. You can do it by running the following command :  
 ```bash
 podman-compose up -d
@@ -73,7 +77,7 @@ podman ps
 
 After this, you can check the collected data by installing [the official MongoDB GUI : MongoDB Compass](https://mongodb.com/try/download/compass)
 
-4. Define environment variables
+### 4. Define environment variables
 In the *backend* folder, create a new file and name it **.env**.
 Copy/Paste this in it : 
 ```bash
@@ -87,4 +91,4 @@ GOOGLE_CLIENT_ID=957773514091-2ovknddlin6hcrvatmabqig6hq45qub0.apps.googleuserco
 ```bash
 openssl rand -base64 32
 ```
- - *GOOGLE_CLIENT_ID*: a Google ID needed to give you the permission to have access to QuickTalk. What it really does is, when you will authenticate to the app with Google, it will either automatically create a new id for you (if you register) or check if your existant ID is the same in QuickTalk. It is essential if we don't want people that are not registered to access to the app, which would be a security breach.
+ - *GOOGLE_CLIENT_ID*: this value identifies QuickTalk to Google during the sign-in process. When a user logs in with Google, the client ID lets Google confirm that the request comes from QuickTalk and returns the user's verified Google identity. QuickTalk then uses this identity to either create a new account or match an existing one. It ensures that only authenticated, registered users can access the app, preventing unauthorized access.
