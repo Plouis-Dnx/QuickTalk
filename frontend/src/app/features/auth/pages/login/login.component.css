@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@700;800&family=DM+Sans:wght@400;500&display=swap');
+@import "tailwindcss";
+
+
+@theme {
+  --font-lexend: 'Lexend', sans-serif;
+  --font-dm-sans: 'DM Sans', sans-serif;
+  --color-yellow-pastel: #f5e06e;
+  --color-yellow-light: #fdf6c3;
+  --color-yellow-mid: #f9ef9a;
+}
+
+.wave1 { animation: waveMove1 8s ease-in-out infinite alternate; }
+.wave2 { animation: waveMove2 10s ease-in-out infinite alternate; }
+.wave3 { animation: waveMove3 12s ease-in-out infinite alternate; }
+
+@keyframes waveMove1 {
+  0%   { d: path("M0,90 C200,50 400,130 600,90 C800,50 1000,110 1440,80 L1440,600 L0,600 Z"); }
+  100% { d: path("M0,80 C200,130 400,60 600,110 C800,150 1000,70 1440,100 L1440,600 L0,600 Z"); }
+}
+@keyframes waveMove2 {
+  0%   { d: path("M0,130 C250,80 500,170 750,130 C1000,80 1200,150 1440,120 L1440,600 L0,600 Z"); }
+  100% { d: path("M0,120 C250,170 500,100 750,150 C1000,190 1200,110 1440,140 L1440,600 L0,600 Z"); }
+}
+@keyframes waveMove3 {
+  0%   { d: path("M0,160 C300,120 600,200 900,160 C1150,120 1300,180 1440,155 L1440,600 L0,600 Z"); }
+  100% { d: path("M0,175 C300,210 600,145 900,185 C1150,220 1300,155 1440,175 L1440,600 L0,600 Z"); }
+}
