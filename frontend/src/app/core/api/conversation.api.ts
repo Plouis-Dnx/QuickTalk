@@ -6,14 +6,14 @@ import { CreateConversationDto } from "../dto/create-conversation.dto";
 import { Conversation } from "../../shared/models/conversation.model";
 
 @Injectable({providedIn: 'root'})
-export class MessageApi {
+export class ConversationApi {
     private http = inject(HttpClient);
 
     getConversation(conversationId: string): Observable<Conversation> {
         return this.http.get<Conversation>(`${environment.apiUrl}/conversations?userId=${conversationId}`);
     }
 
-    getUserConversation(userId: string): Observable<Conversation[]> {
+    getUserConversations(userId: string): Observable<Conversation[]> {
         return this.http.get<Conversation[]>(`${environment.apiUrl}/conversations/user?userId=${userId}`);
     }
 

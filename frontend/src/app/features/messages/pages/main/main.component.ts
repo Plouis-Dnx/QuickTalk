@@ -1,17 +1,10 @@
 import { Component, OnInit } from "@angular/core";
+import { ContactSidebarComponent } from "./components/contacts-sidebar/contacts-sidebar.component";
 
 @Component({
     selector: 'app-main',
     standalone: true,
-    templateUrl: './main.component.html',
-    styleUrl: './main.component.css'
+    imports: [ContactSidebarComponent],
+    template: `<app-contacts-sidebar />`
 })
-export class MainComponent implements OnInit {
-    // Reunites everything : Contacts sidebar, conversation display, ...
-
-    isLoading = true;
-
-    ngOnInit(): void {
-        this.isLoading = false;
-    }
-}
+export class MainComponent {}

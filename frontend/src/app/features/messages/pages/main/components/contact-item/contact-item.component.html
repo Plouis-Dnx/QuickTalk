@@ -1,0 +1,15 @@
+<!--Avatar : inline-block size-6 rounded-full ring-2 ring-gray-900 outline -outline-offset-1 outline-white/10-->
+
+<div class="flex items-center gap-3 px-6 py-3 cursor-pointer hover:bg-yellow-50 transition-colors">
+
+    <!-- Avatar -->
+    <div class="flex items-center justify-center w-10 h-10 rounded-full bg-yellow-300 font-lexend font-bold text-gray-900 shrink-0">
+        {{ conversation.name.charAt(0).toUpperCase() }}
+    </div>
+
+    <!-- Name -->
+    <span class="font-dm-sans text-sm font-medium text-gray-900">
+        {{ conversation.name }}
+    </span>
+
+</div>

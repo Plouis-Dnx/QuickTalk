@@ -61,4 +61,8 @@ export class AuthService {
             console.log('[AuthService] Skip reason:', notification.getSkippedReason());
         });
     }
+
+    getToken(): string | null {
+        return localStorage.getItem(AUTH_TOKEN_KEY);
+    }
 }

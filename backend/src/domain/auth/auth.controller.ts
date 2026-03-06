@@ -26,8 +26,14 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('me')
   async getMe(@Req() req) {
-    // req.user is injected by JwtStrategy after token validation
-    const user = await this.authService.getMe(req.user.email);
-    return user;
+    const user = await this.authService.getMe(req.user.email) as any;
+    return {
+      id: user._id.toString(),
+      username: user.username,
+      email: user.email,
+      profilePicture: user.profile_picture,
+      biography: user.biography,
+      visibility: user.visibility,
+    };
   }
 }
