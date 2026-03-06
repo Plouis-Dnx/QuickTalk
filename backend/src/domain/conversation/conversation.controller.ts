@@ -1,23 +1,39 @@
-import { Controller, Get, Param, Post, Body, Query } from "@nestjs/common";
+import { Controller, Get, Post, Body, Query } from "@nestjs/common";
 import { ConversationService } from "./conversation.service";
 import { CreateConversationDto } from "./dto/create-conversation.dto";
+import { ConversationResponseDto } from "./dto/conversation-response.dto";
+import { ConversationDocument } from "./conversation.schema";
 
 @Controller('conversations')
 export class ConversationController {
     constructor(private readonly conversationService: ConversationService) {}
 
-    @Get()
-    getUserConversations(@Query('userId') userId: string) {
-        return this.conversationService.getUserConversations(userId);
+    private toResponseDto(conversation: ConversationDocument): ConversationResponseDto {
+        return {
+            id: conversation._id.toString(),
+            name: conversation.name,
+            isGroup: conversation.is_group,
+            lastMessage: conversation.last_message?.toString(),
+            conversationPicture: conversation.conversation_picture,
+            members: conversation.members.map(member => member.toString())
+        };
     }
 
-    @Get(':conversationId')
-    getConversationById(@Param('conversationId') conversationId: string) {
-        return this.conversationService.getConversationById(conversationId);
+    @Get('user')
+    async getUserConversations(@Query('userId') userId: string): Promise<ConversationResponseDto[]> {
+        const conversations = await this.conversationService.getUserConversations(userId);
+        return conversations.map(conv => this.toResponseDto(conv));
+    }
+
+    @Get()
+    async getConversationById(@Query('conversationId') conversationId: string): Promise<ConversationResponseDto> {
+        const conversation = await this.conversationService.getConversationById(conversationId);
+        return this.toResponseDto(conversation);
     }
 
     @Post() // Called in frontend when 2 people add each other as friends, or when a user creates a group conversation
-    createConversation(@Body() createConversationDto: CreateConversationDto) {
-        return this.conversationService.createConversation(createConversationDto);
+    async createConversation(@Body() createConversationDto: CreateConversationDto): Promise<ConversationResponseDto> {
+        const conversation = await this.conversationService.createConversation(createConversationDto);
+        return this.toResponseDto(conversation);
     }
 }

@@ -7,7 +7,7 @@ export class CreateConversationDto {
 
     @IsUUID()
     @IsOptional()
-    creatorId: string; // Required only if it's a group conversation
+    creatorId?: string; // Required only if it's a group conversation
 
     @IsUUID()
     @IsArray()

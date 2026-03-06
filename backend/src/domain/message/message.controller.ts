@@ -13,5 +13,5 @@ export class MessageController {
         return this.messageService.getMessages(conversationId);
     }
 
-    // Message are created via WebSocket
+    // Messages are created via WebSocket
 }

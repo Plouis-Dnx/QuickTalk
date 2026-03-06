@@ -3,7 +3,7 @@
 import { LoginResponse } from "../dto/login-response.dto";
 import { AUTH_TOKEN_KEY } from "../constants/auth.constants";
 import { Injectable, inject } from "@angular/core";
-import { catchError, Observable, tap } from "rxjs";
+import { catchError, tap } from "rxjs";
 import { Router } from "@angular/router";
 import { AuthApi } from "../../../core/api/auth.api";
 import { environment } from "../../../../environments/environment";
@@ -40,7 +40,7 @@ export class AuthService {
             tap((res: LoginResponse) => {
                 console.log("[AuthService] Auth successful, response:", res);
                 this.saveToken(res.access_token!);
-                this.router.navigate(['/dashboard']);
+                this.router.navigate(['/messages/main']);
             })
         ).subscribe({error: (err) => console.error("[AuthService] Auth completely failed: ", err) });
     }

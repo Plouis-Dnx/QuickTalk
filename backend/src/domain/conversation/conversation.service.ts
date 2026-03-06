@@ -10,20 +10,13 @@ export class ConversationService {
 
   // create conversation (private or group)
   async createConversation(conversation: CreateConversationDto): Promise<ConversationDocument> {
-    const { name, members, creatorId, isGroup, conversationPicture } = conversation;
+    const { name, creatorId, isGroup, conversationPicture } = conversation;
 
-    if(isGroup && !members.includes(creatorId)) members.push(creatorId); // Ensure the creator is included in the members list for group conversations
-
-    // At least two members are required for a conversation (including the creator)
-    if (!members || members.length < 2) throw new BadRequestException("A conversation must have at least 2 members.");
-
-    // Create conversation 
     const newConversation = new this.conversationModel({
       name: name,
-      last_message: null, // No messages yet
-      members: members,
+      last_message: null,
       is_group: isGroup,
-      admins: isGroup ? [creatorId] : [], // If it's a group, the creator is the admin
+      admins: isGroup ? [creatorId] : [], // creatorId automatically becomes admin
       conversation_picture: conversationPicture || null
     });
 

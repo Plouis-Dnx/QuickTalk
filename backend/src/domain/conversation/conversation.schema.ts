@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { User } from '../user/user.schema';
-import { Message } from '../message/message.schema';
 
 export type ConversationDocument = Conversation & Document;
 
@@ -10,7 +9,7 @@ export class Conversation {
     @Prop({required: true}) name: string;
 
     @Prop({type: Types.ObjectId, ref: "Message" })
-    last_message: Types.ObjectId;
+    last_message?: Types.ObjectId;
 
     @Prop({required: true, type: [Types.ObjectId], ref: User.name}) 
     members: Types.ObjectId[];
@@ -24,7 +23,7 @@ export class Conversation {
     }) 
     admins: Types.ObjectId[];
 
-    @Prop({required: false}) conversation_picture: string;
+    @Prop({required: false}) conversation_picture?: string;
 
     // createdAt, updatedAt (created automatically with timestamps)
 }

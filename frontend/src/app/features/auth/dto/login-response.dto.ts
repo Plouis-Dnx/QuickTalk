@@ -1,5 +1,5 @@
 // Used in AuthService
-import { User } from "../models/user.model";
+import { User } from "../../../shared/models/user.model";
 
 export interface LoginResponse {
   message?: string; // Optional message field for additional info
