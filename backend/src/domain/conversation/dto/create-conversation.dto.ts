@@ -5,11 +5,11 @@ export class CreateConversationDto {
     @IsNotEmpty()
     name: string;
 
-    @IsUUID()
+    @IsString()
     @IsOptional()
     creatorId?: string; // Required only if it's a group conversation
 
-    @IsUUID()
+    @IsString({each: true}) // Vvalidates each element of the array as a string
     @IsArray()
     @IsNotEmpty()
     members: string[];

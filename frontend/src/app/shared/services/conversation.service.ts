@@ -3,6 +3,7 @@ import { ConversationApi } from "../../core/api/conversation.api";
 import { UserService } from "./user.service";
 import { Conversation } from "../models/conversation.model";
 import { Observable, switchMap, tap } from "rxjs";
+import { CreateConversationDto } from "../../core/dto/create-conversation.dto";
 
 @Injectable({providedIn: 'root'})
 export class ConversationService {
@@ -18,5 +19,9 @@ export class ConversationService {
             switchMap(user => this.conversationApi.getUserConversations(user._id)),
             tap(conversations => console.log('[ConversationService] Conversations retrieved:', conversations)),
         );
+    }
+
+    createConversation(dto: CreateConversationDto): Observable<Conversation> {
+        return this.conversationApi.createConversation(dto);
     }
 }

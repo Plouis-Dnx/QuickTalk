@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { CreateConversationDto } from "./dto/create-conversation.dto";
 import { ConversationDocument, Conversation } from "./conversation.schema";
 import { InjectModel } from "@nestjs/mongoose";
@@ -10,14 +10,15 @@ export class ConversationService {
 
   // create conversation (private or group)
   async createConversation(conversation: CreateConversationDto): Promise<ConversationDocument> {
-    const { name, creatorId, isGroup, conversationPicture } = conversation;
+    const { name, creatorId, isGroup, conversationPicture, members } = conversation;
 
     const newConversation = new this.conversationModel({
       name: name,
       last_message: null,
       is_group: isGroup,
       admins: isGroup ? [creatorId] : [], // creatorId automatically becomes admin
-      conversation_picture: conversationPicture || null
+      conversation_picture: conversationPicture || null,
+      members: members.map(id => new Types.ObjectId(id))
     });
 
     try { return await newConversation.save(); }

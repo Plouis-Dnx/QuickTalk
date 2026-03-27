@@ -1,6 +1,8 @@
 import { Component, inject, Input, OnInit } from "@angular/core";
 import { User } from "../../../../../../shared/models/user.model";
+import { ConversationService } from "../../../../../../shared/services/conversation.service";
 import { UserService } from "../../../../../../shared/services/user.service";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'app-user-item',
@@ -10,24 +12,35 @@ import { UserService } from "../../../../../../shared/services/user.service";
 export class UserItemComponent implements OnInit {
     @Input() user!: User;
 
+    private conversationService = inject(ConversationService);
     private userService = inject(UserService);
+    private router = inject(Router);
 
     me!: User;
 
     ngOnInit(): void {
         this.userService.getMe().subscribe({
-            next: me => {
-                this.me = me;
-            },
-            error: err => {
-                console.error("[AddFriends] Failed to load data: ", err);
-            }
-        })
+            next: user => this.me = user,
+            error: err => console.error("[UserItem] Failed to load me: ", err)
+        });
     }
 
-    showId() {
-        console.log(`Selected ID : ${this.user._id}`);
-        console.log(`Me ID : ${this.me._id}`);
-        console.log(this.user);
+    createConversation() {
+        console.log('user._id:', this.user._id);
+        console.log('me._id:', this.me._id);
+        this.conversationService.createConversation({
+            name: this.user.username,
+            creatorId: this.me._id,
+            isGroup: false,
+            members: [this.user._id, this.me._id],
+            conversationPicture: "https://cdn-icons-png.flaticon.com/512/6521/6521784.png"
+        })
+        .subscribe({
+            next: conversation => {
+                console.log(`Conversation with ${this.user.username} successfully created : `, conversation);
+                this.router.navigate(['/main/messages']);
+            },
+            error: err => console.error("[UserItem] Failed to create conversation: ", err)
+        })
     }
 }
