@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { CreateConversationDto } from "./dto/create-conversation.dto";
 import { ConversationDocument, Conversation } from "./conversation.schema";
 import { InjectModel } from "@nestjs/mongoose";
@@ -11,6 +11,15 @@ export class ConversationService {
   // create conversation (private or group)
   async createConversation(conversation: CreateConversationDto): Promise<ConversationDocument> {
     const { name, creatorId, isGroup, conversationPicture, members } = conversation;
+
+    // Check if a private conversation already exists with two members
+    if(!isGroup) {
+      const exists = await this.conversationModel.findOne({
+        is_group: false,
+        members: { $all: members.map(id => new Types.ObjectId(id)), $size: 2 }
+      });
+      if(exists) throw new ConflictException("A conversation with this user already exists.");
+    }
 
     const newConversation = new this.conversationModel({
       name: name,
@@ -31,7 +40,6 @@ export class ConversationService {
       .find({ members: new Types.ObjectId(userId) })
       .sort({ updatedAt: -1 }) // Most recent conversations first
       .populate('last_message')
-      .populate('members', 'name email')
       .exec();
 
     return conversations;

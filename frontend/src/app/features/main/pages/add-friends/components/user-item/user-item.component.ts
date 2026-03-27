@@ -1,8 +1,10 @@
-import { Component, inject, Input, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, inject, Input, OnInit } from "@angular/core";
 import { User } from "../../../../../../shared/models/user.model";
 import { ConversationService } from "../../../../../../shared/services/conversation.service";
 import { UserService } from "../../../../../../shared/services/user.service";
 import { Router } from "@angular/router";
+import { forkJoin } from "rxjs";
+import { Conversation } from "../../../../../../shared/models/conversation.model";
 
 @Component({
     selector: 'app-user-item',
@@ -15,13 +17,26 @@ export class UserItemComponent implements OnInit {
     private conversationService = inject(ConversationService);
     private userService = inject(UserService);
     private router = inject(Router);
+    private cdr = inject(ChangeDetectorRef);
 
     me!: User;
+    conversationExists = false;
 
     ngOnInit(): void {
-        this.userService.getMe().subscribe({
-            next: user => this.me = user,
-            error: err => console.error("[UserItem] Failed to load me: ", err)
+        forkJoin({
+            me: this.userService.getMe(),
+            conversations: this.conversationService.getUserConversations()
+        })
+        .subscribe({
+            next: ({me, conversations}) => {
+                this.me = me;
+                this.conversationExists = conversations.some((conv: Conversation) => 
+                    !conv.isGroup &&
+                    conv.members.map((m: any) => m.toString()).includes(this.user._id.toString()) &&
+                    conv.members.map((m: any) => m.toString()).includes(me._id.toString())
+                );
+                this.cdr.detectChanges();
+            }
         });
     }
 

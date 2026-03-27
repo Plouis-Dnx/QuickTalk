@@ -18,7 +18,12 @@
         }
 
         <div class="card-actions justify-end">
-            <button (click)="createConversation()" class="btn btn-primary rounded border-0 bg-yellow-200 shadow-md hover:shadow-xl">Send me a message</button>
+            <button (click)="createConversation()" 
+                [disabled]="conversationExists"
+                class="btn btn-primary rounded border-0 bg-yellow-200 shadow-md hover:shadow-xl
+                disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none">
+                {{ conversationExists ? 'Already in contact' : 'Send me a message' }}
+            </button>
         </div>
 
     </div>
