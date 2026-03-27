@@ -28,7 +28,7 @@ export class AuthController {
   async getMe(@Req() req) {
     const user = await this.authService.getMe(req.user.email) as any;
     return {
-      id: user._id.toString(),
+      _id: user._id.toString(),
       username: user.username,
       email: user.email,
       profilePicture: user.profile_picture,

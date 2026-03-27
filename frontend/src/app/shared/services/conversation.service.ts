@@ -15,7 +15,7 @@ export class ConversationService {
              * When the first one emits a value, it launches the second 
              * one with this value */
             tap(user => console.log('[ConversationService] User retrieved:', user)),
-            switchMap(user => this.conversationApi.getUserConversations(user.id)),
+            switchMap(user => this.conversationApi.getUserConversations(user._id)),
             tap(conversations => console.log('[ConversationService] Conversations retrieved:', conversations)),
         );
     }
