@@ -1,23 +1,25 @@
-<div class="flex flex-col w-80 h-screen bg-white border-r-2 border-yellow-300">
+<div class="w-80 h-screen p-4">
+    <div class="flex flex-col h-full bg-white rounded-3xl shadow-xl/30 border border-yellow-300">
 
-    <!-- Header -->
-    <div class="px-6 py-5 bg-yellow-300">
-        <h2 class="font-lexend font-bold text-xl text-gray-900">Messages</h2>
-    </div>
+        <!-- Header -->
+        <div class="px-6 py-5">
+            <h2 class="font-lexend font-bold text-xl text-gray-900">Conversations</h2>
+        </div>
 
-    <!-- Conversation list -->
-    <div class="flex-1 overflow-y-auto py-2">
+        <!-- Conversation list -->
+        <div class="flex-1 overflow-y-auto py-2">
 
-        @if(isLoading) { <app-loading /> }
+            @if(isLoading) { <app-loading /> }
 
-        @if(!isLoading) {
-            @for (conversation of conversations; track conversation.id) {
-                <app-contact-item [conversation]="conversation" />
-            } @empty {
-                <p class="text-center text-gray-400 font-dm-sans text-sm px-6 py-8">No conversation</p>
+            @if(!isLoading) {
+                @for (conversation of conversations; track conversation.id) {
+                    <app-contact-item [conversation]="conversation" />
+                } @empty {
+                    <p class="text-center text-gray-400 font-dm-sans text-sm px-6 py-8">No conversation</p>
+                }
             }
-        }
+
+        </div>
 
     </div>
-
 </div>

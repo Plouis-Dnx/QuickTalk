@@ -81,7 +81,7 @@ After this, you can check the collected data by installing [the official MongoDB
 In the *backend* folder, create a new file and name it **.env**.
 Copy/Paste this in it : 
 ```bash
-MONGODB_URI=
+MONGO_URI=
 JWT_SECRET=
 GOOGLE_CLIENT_ID=957773514091-2ovknddlin6hcrvatmabqig6hq45qub0.apps.googleusercontent.com
 ```
@@ -92,3 +92,11 @@ GOOGLE_CLIENT_ID=957773514091-2ovknddlin6hcrvatmabqig6hq45qub0.apps.googleuserco
 openssl rand -base64 32
 ```
  - *GOOGLE_CLIENT_ID*: this value identifies QuickTalk to Google during the sign-in process. When a user logs in with Google, the client ID lets Google confirm that the request comes from QuickTalk and returns the user's verified Google identity. QuickTalk then uses this identity to either create a new account or match an existing one. It ensures that only authenticated, registered users can access the app, preventing unauthorized access.
+
+### 5. Run the backend
+In your terminal, type the following command  
+```bash
+npm run start:dev
+```
+
+The default API url is ```http://localhost:3000```
