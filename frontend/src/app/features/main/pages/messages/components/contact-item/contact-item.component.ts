@@ -12,7 +12,7 @@ export class ContactItemComponent {
 
     // Input enables to share a conversation from the parent
     // Usage: < app-contact-item [conversation]="conversation" /> 
-    @Input() conversation!: Conversation
+    @Input() conversation!: Conversation;
 
     getMessages() {
         this.messageService.selectConversation(this.conversation.id);

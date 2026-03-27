@@ -1,0 +1,25 @@
+<div class="card card-border border border-gray-500 bg-yellow-100 rounded-2xl w-96">
+    <div class="card-body">
+
+        <div class="flex items-center gap-4">
+            <div class="avatar">
+                <div class="w-24 rounded-full">
+                    <img src="https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fstatic.vecteezy.com%2Fsystem%2Fresources%2Fpreviews%2F009%2F292%2F244%2Foriginal%2Fdefault-avatar-icon-of-social-media-user-vector.jpg&sp=1774643578Tc8b05516909d90e8bfd38cee9c00d1e1a5df8cbfb026a7f85227339c2bc7ebf1" />
+                </div>
+            </div>
+            <h2 class="card-title">{{ user.username }}</h2>
+        </div>
+
+        @if (user.biography) {
+            <p class="italic text-gray-500">{{ user.biography }}</p>
+        }
+        @else {
+            <p class="italic text-gray-500">Hi! I'm new</p>
+        }
+
+        <div class="card-actions justify-end">
+            <button (click)="showPfPLink()" class="btn btn-primary rounded border-0 bg-yellow-200 shadow-md hover:shadow-xl">Send me a message</button>
+        </div>
+
+    </div>
+</div>

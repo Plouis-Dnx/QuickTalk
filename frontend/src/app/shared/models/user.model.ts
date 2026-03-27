@@ -4,7 +4,7 @@ export interface User {
     id: string;
     username: string;
     email: string;
-    profilePicture?: string;
+    profile_picture?: string;
     biography?: string;
     visibility: boolean;
 }

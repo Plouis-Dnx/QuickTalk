@@ -11,4 +11,8 @@ export class UserApi {
     getMe(): Observable<User> {
         return this.http.get<User>(`${environment.apiUrl}/auth/me`);
     }
+
+    getAllUsers(): Observable<User[]> {
+        return this.http.get<User[]>(`${environment.apiUrl}/users`);
+    }
 }

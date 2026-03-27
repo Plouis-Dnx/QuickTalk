@@ -18,4 +18,8 @@ export class UserService {
         }
         return this.currentUser;
     }
+
+    getAllUsers(): Observable<User[]> {
+        return this.userApi.getAllUsers();
+    }
 }
