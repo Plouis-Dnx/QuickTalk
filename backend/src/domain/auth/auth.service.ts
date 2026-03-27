@@ -42,9 +42,6 @@ export class AuthService {
     async register(idToken: string): Promise<LoginResponse> {
         const userData = await this.verifyGoogleToken(idToken);
 
-        //const existingUser = await this.userService.getUserByEmail(userData.email);
-        //if (existingUser) throw new ConflictException('User already exists');
-
         let existingUser;
         try { existingUser = await this.userService.getUserByEmail(userData.email); }
         catch(error) { existingUser = null; }

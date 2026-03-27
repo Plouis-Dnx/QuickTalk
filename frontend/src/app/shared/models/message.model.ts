@@ -1,6 +1,9 @@
+import { Observable } from "rxjs";
+import { User } from "./user.model";
+
 export interface Message {
-    _id: string; // Message id
-    _conversation: string; // Link to a conversation (Where to send the message)
-    sender: string; // User id
-    conctent: string;
+    id: string; // Message id
+    conversationId: string; // Link to a conversation (Where to send the message)
+    sender: Observable<User>; 
+    content: string;
 }
