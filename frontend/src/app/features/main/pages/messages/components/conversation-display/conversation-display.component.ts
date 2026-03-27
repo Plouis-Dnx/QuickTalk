@@ -1,7 +1,7 @@
 import { Component, inject } from "@angular/core";
 import { AsyncPipe } from "@angular/common";
-import { MessageService } from "../../../../services/message.service";
-import { UserService } from "../../../../services/user.service";
+import { MessageService } from "../../../../../../shared/services/message.service";
+import { UserService } from "../../../../../../shared/services/user.service";
 
 @Component({
     standalone: true,

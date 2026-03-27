@@ -1,7 +1,7 @@
 import { inject, Injectable } from "@angular/core";
-import { UserApi } from "../../../core/api/user.api";
+import { UserApi } from "../../core/api/user.api";
 import { Observable, shareReplay } from "rxjs";
-import { User } from "../../../shared/models/user.model";
+import { User } from "../models/user.model";
 
 @Injectable({providedIn:'root'})
 export class UserService {

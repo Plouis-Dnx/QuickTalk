@@ -1,13 +1,13 @@
 // All the logic : Redirect to Google, token storage, backend call, ...
 
-import { LoginResponse } from "../dto/login-response.dto";
-import { AUTH_TOKEN_KEY } from "../constants/auth.constants";
+import { LoginResponse } from "../../features/auth/dto/login-response.dto";
+import { AUTH_TOKEN_KEY } from "../../features/auth/constants/auth.constants";
 import { Injectable, inject } from "@angular/core";
 import { catchError, tap } from "rxjs";
 import { Router } from "@angular/router";
-import { AuthApi } from "../../../core/api/auth.api";
-import { environment } from "../../../../environments/environment";
-import { GoogleCredentialResponse } from "../dto/google-credential-response";
+import { AuthApi } from "../../core/api/auth.api";
+import { environment } from "../../../environments/environment";
+import { GoogleCredentialResponse } from "../../features/auth/dto/google-credential-response";
 
 declare const google: any;
 
@@ -25,7 +25,6 @@ export class AuthService {
     private handleGoogleResponse(response: GoogleCredentialResponse): void {
         console.log("[AuthService] Google response received", response);
         const idToken = response.credential;
-        console.log("[AuthService] ID token extracted", idToken);
 
         console.log('[AuthService] Trying login...');
         this.authApi.login(idToken).pipe(
@@ -40,7 +39,7 @@ export class AuthService {
             tap((res: LoginResponse) => {
                 console.log("[AuthService] Auth successful, response:", res);
                 this.saveToken(res.access_token!);
-                this.router.navigate(['/messages/main']);
+                this.router.navigate(['/main/messages']);
             })
         ).subscribe({error: (err) => console.error("[AuthService] Auth completely failed: ", err) });
     }

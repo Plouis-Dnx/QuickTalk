@@ -1,6 +1,6 @@
-import { computed, inject, Injectable, signal } from "@angular/core";
-import { MessageApi } from "../../../core/api/message.api";
-import { Message } from "../../../shared/models/message.model";
+import { inject, Injectable } from "@angular/core";
+import { MessageApi } from "../../core/api/message.api";
+import { Message } from "../models/message.model";
 import { BehaviorSubject, of, switchMap } from "rxjs";
 
 @Injectable({providedIn: 'root'})

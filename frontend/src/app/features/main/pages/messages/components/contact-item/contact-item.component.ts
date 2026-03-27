@@ -1,6 +1,6 @@
 import { Component, inject, Input } from "@angular/core";
 import { Conversation } from "../../../../../../shared/models/conversation.model";
-import { MessageService } from "../../../../services/message.service";
+import { MessageService } from "../../../../../../shared/services/message.service";
 
 @Component({
     standalone: true,

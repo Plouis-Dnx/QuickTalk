@@ -1,7 +1,7 @@
 // Only trigger an action and manage the display
 
 import { Component, inject } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-login',

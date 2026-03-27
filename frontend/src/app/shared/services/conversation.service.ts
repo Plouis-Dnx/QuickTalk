@@ -1,7 +1,7 @@
 import { inject, Injectable } from "@angular/core";
-import { ConversationApi } from "../../../core/api/conversation.api";
+import { ConversationApi } from "../../core/api/conversation.api";
 import { UserService } from "./user.service";
-import { Conversation } from "../../../shared/models/conversation.model";
+import { Conversation } from "../models/conversation.model";
 import { Observable, switchMap, tap } from "rxjs";
 
 @Injectable({providedIn: 'root'})

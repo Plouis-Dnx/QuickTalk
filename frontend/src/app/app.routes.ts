@@ -12,8 +12,8 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'messages',
+    path: 'main',
     loadChildren: () => 
-      import('./features/messages/messages.routes').then(m => m.MESSAGES_ROUTES)
+      import('./features/main/messages.routes').then(m => m.MESSAGES_ROUTES)
   }
 ];

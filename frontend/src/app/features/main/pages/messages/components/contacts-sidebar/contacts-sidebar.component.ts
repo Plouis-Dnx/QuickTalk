@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from "@angular/core";
-import { ConversationService } from "../../../../services/conversation.service";
+import { ConversationService } from "../../../../../../shared/services/conversation.service";
 import { Conversation } from "../../../../../../shared/models/conversation.model";
 import { LoadingComponent } from "../../../../../../shared/components/loading/loading.component";
 import { ContactItemComponent } from "../contact-item/contact-item.component";
