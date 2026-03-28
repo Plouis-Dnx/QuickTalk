@@ -3,6 +3,9 @@ import { ConversationService } from "../../../../../../shared/services/conversat
 import { Conversation } from "../../../../../../shared/models/conversation.model";
 import { LoadingComponent } from "../../../../../../shared/components/loading/loading.component";
 import { ContactItemComponent } from "../contact-item/contact-item.component";
+import { User } from "../../../../../../shared/models/user.model";
+import { UserService } from "../../../../../../shared/services/user.service";
+import { switchMap } from "rxjs";
 
 @Component({
     standalone: true,
@@ -12,20 +15,27 @@ import { ContactItemComponent } from "../contact-item/contact-item.component";
 })
 export class ContactSidebarComponent implements OnInit {
     private conversationService = inject(ConversationService);
+    private userService = inject(UserService);
     private cdr = inject(ChangeDetectorRef);
 
     conversations: Conversation[] = [];
     isLoading = true;
+    me!: User;
 
     ngOnInit(): void {
-        this.conversationService.getUserConversations().subscribe({
-            next: (conversations) => {
+        this.userService.getMe().pipe(
+            switchMap(me => {
+                this.me = me;
+                return this.conversationService.getUserConversations();
+            })
+        ).subscribe({
+            next: conversations => {
                 this.conversations = conversations;
                 this.isLoading = false;
                 this.cdr.detectChanges();
             },
-            error: (err) => {
-                console.error("[ContactSidebar] Failed to load conversations: ", err);
+            error: err => {
+                console.error("[ContactSidebar] Failed to load data: ", err);
                 this.isLoading = false;
                 this.cdr.detectChanges();
             }

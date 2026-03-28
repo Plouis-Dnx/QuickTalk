@@ -22,4 +22,8 @@ export class UserService {
     getAllUsers(): Observable<User[]> {
         return this.userApi.getAllUsers();
     }
+
+    getUserById(id: string): Observable<User> {
+        return this.userApi.getUserById(id);
+    }
 }

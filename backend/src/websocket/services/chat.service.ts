@@ -44,7 +44,7 @@ export class ChatService{
       // Emit the message to all clients in the conversation room
       server.to(conversationId).emit('newMessage', {
         conversationId: message._conversation.toString(),
-        senderId: message.sender.toString(),
+        sender: { _id: message.sender },
         content: message.content
       });
 

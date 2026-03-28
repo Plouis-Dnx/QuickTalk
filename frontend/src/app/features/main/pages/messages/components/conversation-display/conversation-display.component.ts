@@ -29,7 +29,7 @@ export class ConversationDisplayComponent implements OnInit, OnDestroy {
         });
 
         this.websocketService.onNewMessage((message: Message) => {
-            this.messageService.appendMessage(message)
+            this.messageService.appendMessage(message);
         });
     }
 

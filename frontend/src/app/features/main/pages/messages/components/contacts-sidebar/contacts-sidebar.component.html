@@ -12,7 +12,7 @@
             @if(isLoading) { <app-loading /> }
             @else {
                 @for (conversation of conversations; track conversation._id) {
-                    <app-contact-item [conversation]="conversation" />
+                    <app-contact-item [conversation]="conversation" [me]="me" />
                 } @empty {
                     <p class="text-center text-gray-400 font-dm-sans text-sm px-6 py-8">No conversation</p>
                 }

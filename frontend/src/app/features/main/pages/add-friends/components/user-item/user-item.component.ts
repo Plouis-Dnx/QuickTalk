@@ -44,7 +44,7 @@ export class UserItemComponent implements OnInit {
         console.log('user._id:', this.user._id);
         console.log('me._id:', this.me._id);
         this.conversationService.createConversation({
-            name: this.user.username,
+            name: `${this.user.username}, ${this.me.username}`,
             creatorId: this.me._id,
             isGroup: false,
             members: [this.user._id, this.me._id],

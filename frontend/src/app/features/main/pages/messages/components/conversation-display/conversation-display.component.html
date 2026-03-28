@@ -7,7 +7,7 @@
     @else {
         <div class="flex-1">
             @if (messages | async; as msgs) {
-                @for (message of msgs; track message._id) {
+                @for (message of msgs; track $index) {
                     <div class="chat" 
                         [class.chat-start]="message.sender._id !== me._id"
                         [class.chat-end]="message.sender._id === me._id"
