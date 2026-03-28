@@ -1,13 +1,18 @@
 <div class="h-full flex flex-col p-4 overflow-y-auto">
+    @if (!conversationSelected()) {
+        <div class="text-center text-gray-400">
+            No conversation selected
+        </div>
+    }
+    @else {
         <div class="flex-1">
             @if (messages | async; as msgs) {
                 @for (message of msgs; track message.id) {
                     <div class="chat" 
-                        [class.chat-start]="message.sender === meId"
-                        [class.chat-end]="message.sender !== meId"
+                        [class.chat-start]="message.sender === me._id"
+                        [class.chat-end]="message.sender !== me._id"
                     >
                         <div class="chat-bubble bg-yellow-200">{{message.content}}</div>
-
                     </div>
                 }
                 @empty {
@@ -19,5 +24,5 @@
         <div class="bg-yellow-200 p-2 rounded-xl shadow-xl">
             <input type="text" placeholder="Message" class="input border border-yellow-300 rounded-md w-full" />
         </div>
-
+    }
 </div>

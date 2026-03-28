@@ -10,8 +10,7 @@
         <div class="flex-1 overflow-y-auto py-2">
 
             @if(isLoading) { <app-loading /> }
-
-            @if(!isLoading) {
+            @else {
                 @for (conversation of conversations; track conversation.id) {
                     <app-contact-item [conversation]="conversation" />
                 } @empty {

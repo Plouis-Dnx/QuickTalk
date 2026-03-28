@@ -1,11 +1,13 @@
 import { Component, inject, Input } from "@angular/core";
 import { Conversation } from "../../../../../../shared/models/conversation.model";
 import { MessageService } from "../../../../../../shared/services/message.service";
+import { NgClass } from "@angular/common";
 
 @Component({
     standalone: true,
     selector: 'app-contact-item',
-    templateUrl: './contact-item.component.html'
+    templateUrl: './contact-item.component.html',
+    imports: [NgClass]
 })
 export class ContactItemComponent {
     private messageService = inject(MessageService);
@@ -16,6 +18,10 @@ export class ContactItemComponent {
 
     getMessages() {
         this.messageService.selectConversation(this.conversation.id);
-        console.log(`[ContactItemComponent] Selected conversation id : ${this.messageService.selectedConversationId}`);
+        console.log(`[ContactItemComponent] Selected conversation id : ${this.messageService.selectedConversationId.value}`);
     };
+
+    get isSelected(): boolean {
+        return this.messageService.selectedConversationId.value === this.conversation.id;
+    }
 }
