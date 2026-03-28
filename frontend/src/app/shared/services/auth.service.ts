@@ -8,6 +8,7 @@ import { Router } from "@angular/router";
 import { AuthApi } from "../../core/api/auth.api";
 import { environment } from "../../../environments/environment";
 import { GoogleCredentialResponse } from "../../features/auth/dto/google-credential-response";
+import { WebsocketService } from "./websocket.service";
 
 declare const google: any;
 
@@ -15,6 +16,7 @@ declare const google: any;
 export class AuthService {
     private authApi = inject(AuthApi);
     private router = inject(Router);
+    private websocketService = inject(WebsocketService);
 
     private saveToken(token: string): void{
         console.log("[AuthService] Saving token...");
@@ -39,6 +41,7 @@ export class AuthService {
             tap((res: LoginResponse) => {
                 console.log("[AuthService] Auth successful, response:", res);
                 this.saveToken(res.access_token!);
+                this.websocketService.connect(res.access_token!);
                 this.router.navigate(['/main/messages']);
             })
         ).subscribe({error: (err) => console.error("[AuthService] Auth completely failed: ", err) });

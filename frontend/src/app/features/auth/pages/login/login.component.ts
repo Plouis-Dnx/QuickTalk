@@ -2,6 +2,7 @@
 
 import { Component, inject } from '@angular/core';
 import { AuthService } from '../../../../shared/services/auth.service';
+import { WebsocketService } from '../../../../shared/services/websocket.service';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +12,7 @@ import { AuthService } from '../../../../shared/services/auth.service';
 })
 export class LoginComponent {
   private authService = inject(AuthService);
+  private websocketService = inject(WebsocketService);
 
   onLoginClick(): void {
     this.authService.loginWithGoogle();

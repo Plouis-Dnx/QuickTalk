@@ -1,27 +1,57 @@
-import { Component, inject, OnInit } from "@angular/core";
+import { Component, inject, OnDestroy, OnInit } from "@angular/core";
 import { AsyncPipe } from "@angular/common";
 import { MessageService } from "../../../../../../shared/services/message.service";
 import { UserService } from "../../../../../../shared/services/user.service";
 import { User } from "../../../../../../shared/models/user.model";
+import { WebsocketService } from "../../../../../../shared/services/websocket.service";
+import { Message } from "../../../../../../shared/models/message.model";
+import { FormsModule } from "@angular/forms";
 
 @Component({
     standalone: true,
     selector: 'app-conversation-display',
     templateUrl: './conversation-display.component.html',
-    imports: [AsyncPipe]
+    imports: [AsyncPipe, FormsModule]
 })
-export class ConversationDisplayComponent implements OnInit {
+export class ConversationDisplayComponent implements OnInit, OnDestroy {
     private messageService = inject(MessageService);
     private userService = inject(UserService);
+    private websocketService = inject(WebsocketService);
 
-    messages = this.messageService.messages;
+    messages = this.messageService.messages$;
     me!: User;
+    newMessage = '';
 
     ngOnInit(): void {
         this.userService.getMe().subscribe({
             next: me => this.me = me,
             error: err => console.log("Failed to load me: ", err)
         });
+
+        this.websocketService.onNewMessage((message: Message) => {
+            this.messageService.appendMessage(message)
+        });
+
+        this.messages.subscribe(msgs => {
+            console.log('premier message depuis API:', msgs[0]);
+            console.log('me._id:', this.me._id);
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.websocketService.offNewMessage();
+    }
+
+    sendMessage() {
+        const conversationId = this.messageService.selectedConversationId.value;
+        if (!conversationId || !this.newMessage.trim() || !this.me._id) return;
+
+        this.websocketService.sendMessage({
+            conversationId,
+            senderId: this.me._id,
+            content: this.newMessage.trim()
+        });
+        this.newMessage = '';
     }
 
     conversationSelected(): boolean {
