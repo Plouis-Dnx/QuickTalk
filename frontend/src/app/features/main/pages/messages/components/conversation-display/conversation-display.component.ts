@@ -31,11 +31,6 @@ export class ConversationDisplayComponent implements OnInit, OnDestroy {
         this.websocketService.onNewMessage((message: Message) => {
             this.messageService.appendMessage(message)
         });
-
-        this.messages.subscribe(msgs => {
-            console.log('premier message depuis API:', msgs[0]);
-            console.log('me._id:', this.me._id);
-        });
     }
 
     ngOnDestroy(): void {
@@ -48,7 +43,7 @@ export class ConversationDisplayComponent implements OnInit, OnDestroy {
 
         this.websocketService.sendMessage({
             conversationId,
-            senderId: this.me._id,
+            sender: this.me,
             content: this.newMessage.trim()
         });
         this.newMessage = '';

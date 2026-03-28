@@ -17,11 +17,11 @@ export class ContactItemComponent {
     @Input() conversation!: Conversation;
 
     getMessages() {
-        this.messageService.selectConversation(this.conversation.id);
+        this.messageService.selectConversation(this.conversation._id);
         console.log(`[ContactItemComponent] Selected conversation id : ${this.messageService.selectedConversationId.value}`);
     };
 
     get isSelected(): boolean {
-        return this.messageService.selectedConversationId.value === this.conversation.id;
+        return this.messageService.selectedConversationId.value === this.conversation._id;
     }
 }

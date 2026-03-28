@@ -1,5 +1,5 @@
 export interface Conversation {
-    id: string;
+    _id: string;
     name: string;
     isGroup: boolean;
     members: string[];
