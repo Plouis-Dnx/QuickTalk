@@ -1,0 +1,6 @@
+export const environment = {
+  production: false,
+  googleClientId: '957773514091-2ovknddlin6hcrvatmabqig6hq45qub0.apps.googleusercontent.com',
+  apiUrl: 'http://localhost:3000',
+  websocketUrl: 'ws://localhost:3000'
+};
