@@ -7,7 +7,7 @@ export class TransformInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
         return next.handle().pipe(
             map(data => {
-                // Convertit les objets Mongoose en plain objects d'abord
+                // Firstly converts Mongoose objects in plain objects
                 const plain = JSON.parse(JSON.stringify(data));
                 return this.transform(plain);
             })
@@ -24,7 +24,7 @@ export class TransformInterceptor implements NestInterceptor {
                 if (key === 'id') {
                     transformed['_id'] = data[key]?.toString();
                 } else if (key === '__v') {
-                    // supprime __v
+                    // delete __v
                 } else {
                     transformed[key] = this.transform(data[key]);
                 }

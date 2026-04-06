@@ -36,13 +36,11 @@ export class AuthService {
             }),
             catchError((error) => {
                 console.log("[AuthService] Login failed, trying register...", error);
+                
                 return this.authApi.register(idToken);
             }),
             tap((res: LoginResponse) => {
                 console.log("[AuthService] Auth successful, response:", res);
-
-                console.log('LoginResponse reçu:', res);
-                console.log('access_token:', res.access_token);
                 
                 this.saveToken(res.access_token!);
                 this.websocketService.connect(res.access_token!);
