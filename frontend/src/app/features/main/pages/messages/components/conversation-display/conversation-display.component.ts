@@ -24,12 +24,14 @@ export class ConversationDisplayComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.userService.getMe().subscribe({
-            next: me => this.me = me,
-            error: err => console.log("Failed to load me: ", err)
-        });
+            next: me => {
+                this.me = me;
 
-        this.websocketService.onNewMessage((message: Message) => {
-            this.messageService.appendMessage(message);
+                this.websocketService.onNewMessage((message: Message) => {
+                    this.messageService.appendMessage(message);
+                });
+            },
+            error: err => console.log("Failed to load me: ", err)
         });
     }
 
@@ -38,6 +40,8 @@ export class ConversationDisplayComponent implements OnInit, OnDestroy {
     }
 
     sendMessage() {
+        console.log("currentUser at send time:", this.me);
+
         const conversationId = this.messageService.selectedConversationId.value;
         if (!conversationId || !this.newMessage.trim() || !this.me._id) return;
 

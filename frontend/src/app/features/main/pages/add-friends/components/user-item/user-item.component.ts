@@ -5,6 +5,7 @@ import { UserService } from "../../../../../../shared/services/user.service";
 import { Router } from "@angular/router";
 import { forkJoin } from "rxjs";
 import { Conversation } from "../../../../../../shared/models/conversation.model";
+import { WebsocketService } from "../../../../../../shared/services/websocket.service";
 
 @Component({
     selector: 'app-user-item',
@@ -16,6 +17,7 @@ export class UserItemComponent implements OnInit {
 
     private conversationService = inject(ConversationService);
     private userService = inject(UserService);
+    private websocketService = inject(WebsocketService);
     private router = inject(Router);
     private cdr = inject(ChangeDetectorRef);
 
@@ -53,6 +55,7 @@ export class UserItemComponent implements OnInit {
         .subscribe({
             next: conversation => {
                 console.log(`Conversation with ${this.user.username} successfully created : `, conversation);
+                this.websocketService.joinConversation(conversation._id);
                 this.router.navigate(['/main/messages']);
             },
             error: err => console.error("[UserItem] Failed to create conversation: ", err)

@@ -6,6 +6,7 @@ import { WsUser } from '../decorators/ws-user.decorator';
 import { ChatService } from '../services/chat.service';
 
 import { 
+  ConnectedSocket,
   MessageBody,
   OnGatewayConnection, 
   OnGatewayDisconnect, 
@@ -78,5 +79,11 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     catch (error) {
       throw new WsException(error.message || 'Failed to send message');
     }
+  }
+
+  @SubscribeMessage('joinConversation')
+  handleJoinConversation(@MessageBody() data: { conversationId: string }, @ConnectedSocket() client: Socket) {
+    client.join(data.conversationId);
+    console.log(`Client ${client.id} joined conversation ${data.conversationId}`);
   }
 }

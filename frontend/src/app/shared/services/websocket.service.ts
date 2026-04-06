@@ -37,4 +37,8 @@ export class WebsocketService {
     disconnect() {
         this.socket?.disconnect();
     }
+
+    joinConversation(conversationId: string) {
+        this.socket?.emit('joinConversation', { conversationId });
+    }
 }
